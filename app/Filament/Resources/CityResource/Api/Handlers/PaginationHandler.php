@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Filament\Resources\CityResource\Api\Handlers;
 
 use Illuminate\Http\Request;
@@ -7,9 +8,12 @@ use Spatie\QueryBuilder\QueryBuilder;
 use App\Filament\Resources\CityResource;
 use App\Filament\Resources\CityResource\Api\Transformers\CityTransformer;
 
-class PaginationHandler extends Handlers {
+class PaginationHandler extends Handlers
+{
     public static string | null $uri = '/';
     public static string | null $resource = CityResource::class;
+
+    public static bool $public = true;
 
 
     /**
@@ -23,12 +27,12 @@ class PaginationHandler extends Handlers {
         $query = static::getEloquentQuery();
 
         $query = QueryBuilder::for($query)
-        ->allowedFields($this->getAllowedFields() ?? [])
-        ->allowedSorts($this->getAllowedSorts() ?? [])
-        ->allowedFilters($this->getAllowedFilters() ?? [])
-        ->allowedIncludes($this->getAllowedIncludes() ?? [])
-        ->paginate(request()->query('per_page'))
-        ->appends(request()->query());
+            ->allowedFields($this->getAllowedFields() ?? [])
+            ->allowedSorts($this->getAllowedSorts() ?? [])
+            ->allowedFilters($this->getAllowedFilters() ?? [])
+            ->allowedIncludes($this->getAllowedIncludes() ?? [])
+            ->paginate(request()->query('per_page'))
+            ->appends(request()->query());
 
         return CityTransformer::collection($query);
     }
